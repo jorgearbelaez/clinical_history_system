@@ -222,8 +222,9 @@ const updateProfile = async (req, res) => {
 const handlerCreateDoctor = async (req, res) => {
   try {
     const doctor = req.body;
+    const { _id } = req.user;
 
-    const newUser = await createDoctor(doctor);
+    const newUser = await createDoctor(doctor, _id);
 
     // Enviar el email de confirmacion
     const { email, token } = newUser;
