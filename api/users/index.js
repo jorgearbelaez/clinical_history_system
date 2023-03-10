@@ -3,7 +3,7 @@ const { check } = require("express-validator");
 const { idExists, emailExists } = require("../../helpers/customValidators");
 const { fieldsValidator } = require("../../middlewares/fieldsValidator");
 const { validateJWT } = require("../../middlewares/tokenValidator");
-const { isHospitalRole } = require("../../middlewares/isHospitalRole");
+const { isHospitalRole } = require("../../middlewares/roleValidator");
 const {
   handlerCreateUser,
   handlerAllUsers,
