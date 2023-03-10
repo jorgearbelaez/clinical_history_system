@@ -15,6 +15,7 @@ const createDoctor = async (user) => {
 
   //asignamos el rol de tipo Médico
   userNew.rol = "MEDICO";
+  userNew.primerasesion = true;
 
   // generamos token de confirmacion de cuenta
   userNew.token = generateToken();

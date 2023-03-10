@@ -15,15 +15,25 @@ const handlerLogin = async (req, res) => {
       msg: "Debes confirmar tu cuenta",
     });
   }
-
   if (await user.comprobarPassword(password)) {
-    res.json({
-      _id: user._id,
-      nombre: user.nombre,
-      email: user.email,
-      rol: user.rol,
-      token: generarJWT(user._id),
-    });
+    if (user.rol === "MEDICO" && user.primerasesion === true) {
+      res.json({
+        msg: "debes establecer un nuevo password, redirigiendo...",
+        _id: user._id,
+        email: user.email,
+        rol: user.rol,
+        token: generarJWT(user._id),
+        // redireccionamos hacia la vista donde cambiaremos el password por medio del endpoint http://localhost:4000/api/users/change-password //
+      });
+    } else {
+      res.json({
+        _id: user._id,
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol,
+        token: generarJWT(user._id),
+      });
+    }
   } else {
     return res.status(403).json({
       msg: "Credenciales Incorrectas",

@@ -141,7 +141,12 @@ const changePassword = async (req, res) => {
 
     if (password && nuevoPassword) {
       if (await user.comprobarPassword(password)) {
-        user.password = nuevoPassword;
+        if (user.rol === "MEDICO" && user.primerasesion === true) {
+          user.primerasesion = false;
+          user.password = nuevoPassword;
+        } else {
+          user.password = nuevoPassword;
+        }
       } else {
         const error = new Error("El password es incorrecto");
         return res.status(403).json({ msg: error.message });
@@ -150,7 +155,7 @@ const changePassword = async (req, res) => {
       const error = new Error("Ambos campos son requeridos");
       return res.status(403).json({ msg: error.message });
     }
-
+    console.log(user);
     await user.save();
     res.json({
       msg: "Password cambiado correctamente",

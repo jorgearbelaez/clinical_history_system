@@ -53,6 +53,9 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    primerasesion: {
+      type: Boolean,
+    },
     token: {
       type: String,
     },
