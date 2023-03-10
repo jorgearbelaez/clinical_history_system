@@ -10,6 +10,18 @@ const createUser = async (user) => {
 
   return userNew;
 };
+const createDoctor = async (user) => {
+  const userNew = new User(user);
+
+  //asignamos el rol de tipo Médico
+  userNew.rol = "MEDICO";
+
+  // generamos token de confirmacion de cuenta
+  userNew.token = generateToken();
+  await userNew.save();
+
+  return userNew;
+};
 const existsToken = async (token) => {
   const user = await User.findOne({ token });
 
@@ -45,6 +57,7 @@ const getAllUsers = async (limit, page) => {
 
 module.exports = {
   createUser,
+  createDoctor,
   existsToken,
   findUser,
   getUserById,

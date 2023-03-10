@@ -4,6 +4,7 @@ const {
   existsToken,
   findUser,
   getUserById,
+  createDoctor,
 } = require("./users.service");
 
 const { emailRegister, emailForgotPassword } = require("../../helpers/emails");
@@ -213,6 +214,26 @@ const updateProfile = async (req, res) => {
     console.log(error);
   }
 };
+const handlerCreateDoctor = async (req, res) => {
+  try {
+    const doctor = req.body;
+
+    const newUser = await createDoctor(doctor);
+
+    // Enviar el email de confirmacion
+    const { email, token } = newUser;
+    emailRegister({
+      email,
+      token,
+    });
+
+    return res.status(200).json({
+      msg: `Usuario Médico creado correctamente, debe revisar su Email  ${email} para confirmar su cuenta`,
+    });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
 
 const handlerAllUsers = async (req, res) => {
   const { limite = 5, pagina = 1 } = req.query;
@@ -235,4 +256,5 @@ module.exports = {
   changePassword,
   updateProfile,
   handlerAllUsers,
+  handlerCreateDoctor,
 };

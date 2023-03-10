@@ -3,6 +3,7 @@ const { check } = require("express-validator");
 const { idExists, emailExists } = require("../../helpers/customValidators");
 const { fieldsValidator } = require("../../middlewares/fieldsValidator");
 const { validateJWT } = require("../../middlewares/tokenValidator");
+const { isHospitalRole } = require("../../middlewares/isHospitalRole");
 const {
   handlerCreateUser,
   handlerAllUsers,
@@ -12,6 +13,7 @@ const {
   newPassword,
   changePassword,
   updateProfile,
+  handlerCreateDoctor,
 } = require("./users.controller");
 
 const router = Router();
@@ -80,6 +82,30 @@ router.patch(
 );
 
 router.put("/update-profile", validateJWT, updateProfile);
+
 router.get("/", validateJWT, handlerAllUsers);
+
+// registro usuario tipo medico
+router.post(
+  "/register-doctor",
+  [
+    validateJWT,
+    check("identificacion", "Su identificación es obligatorio").not().isEmpty(),
+    check("identificacion").custom(idExists),
+    check("email", "email no es valido").isEmail(),
+    check("email").custom(emailExists),
+    check("password", "El password es obligatorio").exists(),
+    check(
+      "password",
+      "El password es obligatorio y debe ser de mínimo 6 caracteres"
+    ).isLength({
+      min: 6,
+    }),
+    check("telefono", "El numero de telefono es obligatorio").not().isEmpty(),
+    isHospitalRole,
+    fieldsValidator,
+  ],
+  handlerCreateDoctor
+);
 
 module.exports = router;

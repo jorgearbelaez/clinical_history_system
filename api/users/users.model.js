@@ -33,7 +33,7 @@ const UserSchema = mongoose.Schema(
     rol: {
       type: String,
       required: true,
-      enum: ["HOSPITAL", "PACIENTE"],
+      enum: ["HOSPITAL", "PACIENTE", "MEDICO"],
     },
     direccion: {
       type: String,
