@@ -86,9 +86,20 @@ const getAllRecordsByUser = async (id, rol) => {
   }
 };
 const getRecordById = async (id, rol, userId) => {
-  const record = await Record.findById({ _id: id });
+  const record = await Record.findById({ _id: id })
+    .populate("medico", "nombre email telefono")
+    .populate("paciente", "nombre email telefono")
+    .populate("hospital", "nombre email telefono servicios");
 
   return record;
+};
+const downloadRecords = async (userId) => {
+  const records = await Record.find({ paciente: userId })
+    .populate("medico", "nombre email telefono")
+    .populate("paciente", "nombre email telefono")
+    .populate("hospital", "nombre email telefono servicios");
+
+  return records;
 };
 
 module.exports = {
@@ -98,4 +109,5 @@ module.exports = {
   getAllRecords,
   getAllRecordsByUser,
   getRecordById,
+  downloadRecords,
 };

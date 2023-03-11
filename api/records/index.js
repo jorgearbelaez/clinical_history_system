@@ -8,6 +8,7 @@ const {
   handlerAllRecords,
   handlerAllRecordsById,
   handlerRecordById,
+  handlerExcelRecords,
 } = require("./records.controller");
 const { fieldsValidator } = require("../../middlewares/fieldsValidator");
 
@@ -37,5 +38,17 @@ router.post(
 router.get("/", validateJWT, handlerAllRecords); //ADMIN
 
 router.get("/get-records", validateJWT, handlerAllRecordsById);
-router.get("/get-record/:id", validateJWT, handlerRecordById);
+
+router.get(
+  "/get-record/:id",
+  [validateJWT, check("id", "No es un id válido").isMongoId(), fieldsValidator],
+  handlerRecordById
+);
+
+router.get(
+  "/excel-users/:id",
+  [check("id", "No es un id válido").isMongoId(), fieldsValidator],
+  handlerExcelRecords
+);
+
 module.exports = router;
