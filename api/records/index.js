@@ -47,7 +47,7 @@ router.get(
 
 router.get(
   "/excel-users/:id",
-  [check("id", "No es un id válido").isMongoId(), fieldsValidator],
+  [validateJWT, check("id", "No es un id válido").isMongoId(), fieldsValidator],
   handlerExcelRecords
 );
 
