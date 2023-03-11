@@ -57,8 +57,15 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
     },
     creador: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
+    records: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Record",
+      },
+    ],
     token: {
       type: String,
     },

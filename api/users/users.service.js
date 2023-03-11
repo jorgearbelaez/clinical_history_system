@@ -1,6 +1,6 @@
 const User = require("./users.model");
 const { generateToken } = require("../../helpers/generateToken");
-
+const ObjectId = require("mongodb").ObjectId;
 const createUser = async (user) => {
   const userNew = new User(user);
 
@@ -11,7 +11,6 @@ const createUser = async (user) => {
   return userNew;
 };
 const createDoctor = async (doctor, id) => {
-  console.log(id);
   const userNew = new User(doctor);
   //asignamos el rol de tipo Médico
   userNew.rol = "MEDICO";

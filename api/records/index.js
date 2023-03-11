@@ -3,7 +3,12 @@ const { check } = require("express-validator");
 
 const { validateJWT } = require("../../middlewares/tokenValidator");
 const { isDoctorRole } = require("../../middlewares/roleValidator");
-const { handlerCreateRecord } = require("./records.controller");
+const {
+  handlerCreateRecord,
+  handlerAllRecords,
+  handlerAllRecordsById,
+  handlerRecordById,
+} = require("./records.controller");
 const { fieldsValidator } = require("../../middlewares/fieldsValidator");
 
 const router = Router();
@@ -29,5 +34,8 @@ router.post(
   ],
   handlerCreateRecord
 );
+router.get("/", validateJWT, handlerAllRecords); //ADMIN
 
+router.get("/get-records", validateJWT, handlerAllRecordsById);
+router.get("/get-record/:id", validateJWT, handlerRecordById);
 module.exports = router;
